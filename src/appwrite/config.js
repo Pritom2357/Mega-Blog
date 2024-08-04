@@ -35,7 +35,7 @@ export class Service{
 
     async updatePost(slug, {title, content, featuredImage, status}){
         try {
-            return await this.updateDocument(
+            return await this.databases.updateDocument(
                 conf.appwriteDatabaseID,
                 conf.appwriteCollectionID,
                 slug,
@@ -123,7 +123,7 @@ export class Service{
     getFilePreview(fileID){
         return this.bucket.getFilePreview(
             conf.appwriteBucketID,
-            fileID
+            fileID,
         )
     }
 

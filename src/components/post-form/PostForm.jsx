@@ -34,7 +34,9 @@ export default function PostForm({post}) {
                 navigate(`/post/${dbPost.$id}`)
             }
         }else{
-            const file = await appwriteService.uploadFile(data.image[0]);
+            const file = data.image[0]?await appwriteService.uploadFile(data.image[0]):null;
+            console.log(file);
+            
             if(file){
                 const fileId = file.$id;
                 data.featuredImage=fileId;
@@ -78,13 +80,14 @@ export default function PostForm({post}) {
                     label="Title :"
                     placeholder="Title"
                     className="mb-4"
+                    // readonly="false"
                     {...register("title", { required: true })}
                 />
                 <Input
                     label="Slug :"
                     placeholder="Slug"
                     className="mb-4"
-                    readonly="true"
+                    readonly={`true`}
                     {...register("slug", { required: true })}
                     onInput={(e) => {
                         setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
@@ -97,6 +100,7 @@ export default function PostForm({post}) {
                     label="Featured Image :"
                     type="file"
                     className="mb-4"
+                    // readonly="false"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: !post })}
                 />
